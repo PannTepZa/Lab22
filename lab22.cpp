@@ -30,6 +30,64 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 
 //Write your code here
 
+ostream & operator<<(ostream &os,const ComplexNumber &c){
+	if (c.real == 0 && c.imag == 0)
+        return os << "0";
+    else if (c.real == 0)
+        return os << c.imag << "i";
+    else if (c.imag == 0)
+        return os << c.real;
+    else if (c.imag < 0)
+        return os << c.real << c.imag << "i";
+    else
+        return os << c.real << "+" << c.imag << "i";
+}
+
+ComplexNumber operator+(double a, const ComplexNumber &c){
+	return ComplexNumber(c.real + a,c.imag);
+}
+
+ComplexNumber operator-(double a, const ComplexNumber &c){
+	return ComplexNumber(a - c.real,-c.imag);
+}
+
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	return ComplexNumber((real *c.real) - (imag * c.imag),(real * c.imag) + (imag * c.real));
+}
+
+ComplexNumber operator*(double a, const ComplexNumber &c){
+	return ComplexNumber(a * c.real,a * c.imag);
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	double denom = c.real * c.real + c.imag * c.imag;
+
+    return ComplexNumber((real * c.real + imag * c.imag) / denom,(imag * c.real - real * c.imag) / denom);
+}
+
+ComplexNumber operator/(double a, const ComplexNumber &c){
+	double denom = c.real * c.real + c.imag * c.imag;
+	return ComplexNumber((a * c.real) / denom,(-a * c.imag) / denom);
+
+}
+
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	return (real == c.real && imag == c.imag);
+}
+
+bool operator==(double a, const ComplexNumber &c){
+	if (a == c.real && c.imag == 0) return true;
+	else return false;
+}
+
+double ComplexNumber::abs(){
+	return sqrt(((imag*imag)+(real*real)));
+}
+
+double ComplexNumber::angle(){
+	return atan2(imag, real) * (180.0/M_PI);
+}
+
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
 	cout << a << "\n";
